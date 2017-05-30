@@ -1,0 +1,11 @@
+- name: install htop
+      apt: name=htop state=absent purge=yes
+      when: ansible_os_family == 'Debian'
+
+    - name: install httpd
+      yum: name=httpd state=present
+      when: ansible_os_family == 'RedHat'
+
+    - name: reload service httpd, in all cases
+      systemd: name=httpd state=started
+      when: ansible_os_family == 'RedHat'
