@@ -1,5 +1,5 @@
 ---
-- hosts: infostore-dc
+- hosts: routers
   gather_facts: true
   connection: local
 
