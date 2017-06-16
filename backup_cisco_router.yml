@@ -12,7 +12,7 @@
       username: istore
   register: config
 
-  - name: save output to /mnt/c/Users/diogo/Documents/backups
-    copy:
-      content: "{{ config.stdout[0] }}"
-      dest: "/mnt/c/Users/diogo/Documents/backups/show_run_{{ inventory_hostname }}.txt"
+    - name: save output to /mnt/c/Users/diogo/Documents/backups
+      copy:
+        content: "{{ config.stdout[0] }}"
+        dest: "/mnt/c/Users/diogo/Documents/backups/show_run_{{ inventory_hostname }}.txt"
