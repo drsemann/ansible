@@ -6,11 +6,11 @@
   tasks:
     - name: show run
       ios_command:
-        commands:
-          - show run
-      host: "{{ ansible_host }}"
-      username: istore
-  register: config
+          commands:
+            - show run
+          host: "{{ ansible_host }}"
+          username: istore
+      register: config
 
     - name: save output to /mnt/c/Users/diogo/Documents/backups
       copy:
