@@ -1,9 +1,0 @@
-- hosts: deb
-  user: root
-
-  tasks:
-    - name: update and upgrade apt packages
-      apt: upgrade=yes update_cache=yes cache_valid_time=3600 
-   
-    - name: Install the package vim
-      apt: name=vim-nox state=present
