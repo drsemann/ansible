@@ -1,0 +1,10 @@
+---
+- hosts: all  
+  tasks:
+    - name: Atualizando o sistema (Debian)
+      ansible.builtin.apt: 
+        name: '*'
+        state: latest        
+        update_cache: yes
+        only_upgrade: yes
+...

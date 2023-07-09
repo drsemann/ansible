@@ -1,0 +1,19 @@
+---
+- hosts: all  
+  tasks:
+    - name: Distros Base RedHat
+      block:     
+        - name: Faster dnf
+          ini_file:
+            path: /etc/dnf/dnf.conf
+            section: main
+            option: fastestmirror
+            value: true   
+
+        - name: Atualizando o sistema (RedHat)
+          ansible.builtin.dnf: 
+            name: '*' 
+            state: latest
+            update_cache: yes
+            update_only: yes
+...

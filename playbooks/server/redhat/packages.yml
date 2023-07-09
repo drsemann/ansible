@@ -1,0 +1,29 @@
+---
+- hosts: all
+  tasks:
+    - name: Instalacao Pacotes base
+      ansible.builtin.package:
+        name:
+          - neovim
+          - htop
+          - iotop
+          - iftop
+          - hdparm
+          - mlocate
+          - traceroute
+          - ipcalc
+          - whois
+          - dnsutils
+          - net-tools
+          - ncdu
+          - bash-completion
+          - curl
+          - nmap
+          - links
+          - tcpdump
+          - ethtool
+          - iptraf-ng
+          - python3-pip
+          - golang
+        state: present
+...
