@@ -1,6 +1,6 @@
 ---
 - hosts: all
-  host_user: "vagrant"
+  host_user:
   tasks:
     - name: Docker distro base Debian
       block:
