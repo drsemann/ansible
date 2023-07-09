@@ -1,7 +1,7 @@
 ---
 - hosts: all
   vars:
-    host_user:
+    host_user: "vagrant"
   tasks:
     - name: Baixando script starship
       ansible.builtin.get_url:
@@ -31,11 +31,21 @@
 
         - name: Copiando bashrc
           ansible.builtin.copy:
+            src: bashrcdeb
+            dest: /home/{{ host_user }}/.bashrc
+            mode: '0644'
+            owner: '{{ host_user }}'
+            group: '{{ host_user }}'
+          when: ansible_facts['os_family'] == "Debian"
+
+        - name: Copiando bashrc
+          ansible.builtin.copy:
             src: bashrc
             dest: /home/{{ host_user }}/.bashrc
             mode: '0644'
             owner: '{{ host_user }}'
             group: '{{ host_user }}'
+          when: ansible_facts['os_family'] == "Redhat"
         
         - name: Criando pasta nvim
           ansible.builtin.file:
@@ -71,12 +81,22 @@
 
         - name: Copiando bashrc
           ansible.builtin.copy:
+            src: bashrcdeb
+            dest: /root/.bashrc
+            mode: '0644'
+            owner: 'root'
+            group: 'root'
+          when: ansible_facts['os_family'] == "Debian"  
+        
+        - name: Copiando bashrc
+          ansible.builtin.copy:
             src: bashrc
             dest: /root/.bashrc
             mode: '0644'
             owner: 'root'
             group: 'root'
-        
+          when: ansible_facts['os_family'] == "Redhat"
+
         - name: Criando pasta nvim
           ansible.builtin.file:
               path: /root/.config/nvim
