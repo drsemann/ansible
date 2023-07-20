@@ -1,0 +1,6 @@
+---
+- hosts: all
+  tasks:
+    - name: Rodando script para desabilitar mensagem de login 
+      ansible.builtin.script: scripts/disable-message.sh
+...

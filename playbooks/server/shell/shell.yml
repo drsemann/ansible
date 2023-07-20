@@ -1,7 +1,5 @@
 ---
 - hosts: all
-  vars:
-    host_user: "vagrant"
   tasks:
     - name: Baixando script starship
       ansible.builtin.get_url:
@@ -13,56 +11,6 @@
       ansible.builtin.shell:
         cmd: /tmp/starship_install.sh --yes
         executable: /bin/sh
-
-    - name: Configuracao Usuario
-      block:
-        - name: Criando pasta .config
-          ansible.builtin.file:
-              path: /home/{{ host_user }}/.config
-              state: directory
-              owner: '{{ host_user }}'
-              group: '{{ host_user }}'
-              mode: '0775'
-
-        - name: Copiando configuracao starship
-          ansible.builtin.copy:
-            src: starship.toml
-            dest: /home/{{ host_user }}/.config/starship.toml
-
-        - name: Copiando bashrc
-          ansible.builtin.copy:
-            src: bashrcdeb
-            dest: /home/{{ host_user }}/.bashrc
-            mode: '0644'
-            owner: '{{ host_user }}'
-            group: '{{ host_user }}'
-          when: ansible_facts['os_family'] == "Debian"
-
-        - name: Copiando bashrc
-          ansible.builtin.copy:
-            src: bashrc
-            dest: /home/{{ host_user }}/.bashrc
-            mode: '0644'
-            owner: '{{ host_user }}'
-            group: '{{ host_user }}'
-          when: ansible_facts['os_family'] == "Redhat"
-        
-        - name: Criando pasta nvim
-          ansible.builtin.file:
-              path: /home/{{ host_user }}/.config/nvim
-              state: directory
-              owner: '{{ host_user }}'
-              group: '{{ host_user }}'
-              mode: '0775'
-
-        - name: Copiando neovim config
-          ansible.builtin.copy:
-            src: neovim
-            dest: /home/{{ host_user }}/.config/nvim/init.vim
-            mode: '0644'
-            owner: '{{ host_user }}'
-            group: '{{ host_user }}'
-        
 
     - name: Configuracao root
       block:

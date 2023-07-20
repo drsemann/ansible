@@ -26,13 +26,8 @@
           - ethtool
           - iptraf-ng
           - micro
-          - bpytop
-          - exa 
           - python3-pip
           - golang
-          - bat
-          - zoxide
-          - ripgrep
         state: present
 ...
 
