@@ -1,7 +1,7 @@
 ---
 - hosts: all
   vars:
-    host_user:
+    host_user: usuario
   tasks:
     - name: Docker distro base Debian
       block:

@@ -1,0 +1,46 @@
+---
+
+- hosts: all
+  vars:
+    db_user: "zabbix"
+    db_name: "zabbix"
+    db_password: "password"
+  tasks:
+  - name: Instalando e configurando o Postgresql
+    block:
+      - name: Instalando Zabbix e Postgresql
+        ansible.builtin.package:
+          name:
+            - postgresql
+            - postgresql-contrib
+            - acl
+            - python3-pip
+            - python3-psycopg2
+
+      - name: Cria database zabbix
+        become: true
+        become_user: postgres
+        community.postgresql.postgresql_db:
+          name: '{{ db_name }}'
+
+      - name: Cria usuario zabbix e libera acesso a base zabbix
+        become: true
+        become_user: postgres
+        community.postgresql.postgresql_user:
+          db: '{{ db_name }}'
+          name: '{{ db_user }}'
+          password: '{{ db_password }}'
+          priv: "CONNECT/ALL"
+      
+      - name: Copiando arquivo sql
+        become: true
+        become_user: postgres
+        ansible.builtin.copy:
+          src: server.sql
+          dest: /tmp/
+
+      - name: Importando base de dados
+        become: true
+        become_user: postgres
+        ansible.builtin.shell: psql '{{ db_name }}' < /tmp/server.sql      
+...

@@ -1,0 +1,7 @@
+- hosts: all
+  tasks:
+  - name: Show host's ip
+    debug:
+      msg: "{{ ansible_ssh_host }}"
+    debug: var=ansible_all_ipv4_addresses
+    debug: var=ansible_default_ipv4.address
