@@ -3,7 +3,7 @@
   vars:
     db_user: 'zabbix'
     db_name: 'zabbix'
-    db_password: 'wirveD5R8aNKAUiq4n9'
+    db_password: 'password'
   tasks:
     - name: Instalando repositorio zabbix 6.4
       ansible.builtin.apt:
@@ -30,6 +30,16 @@
       become_user: postgres
       community.postgresql.postgresql_db:
         name: '{{ db_name }}'
+    
+    - name: Extraindo a base de dados
+      become: true
+      become_user: postgres
+      ansible.builtin.shell: gunzip -c /usr/share/zabbix-sql-scripts/postgresql/server.sql.gz > /tmp/server.sql
+    
+    - name: Importando base de dados
+      become: true
+      become_user: postgres
+      ansible.builtin.shell: psql {{ db_name }} < /tmp/server.sql
 
     - name: Cria usuario zabbix e libera acesso a base zabbix
       become: true
@@ -39,22 +49,21 @@
         name: '{{ db_user }}'
         password: '{{ db_password }}'
         priv: ALL
+        state: present
+    
+    - name: Dando acesso ao banco zabbix
+      community.general.postgresql_privs:      
+        db: postgres
+        privs: ALL
+        type: database
+        obj: zabbix
+        role: zabbix
     #- name: Removendo permissoes desnecessarios ao usuario
     #  become: true
     #  become_user: postgres
     #  postgresql_user: name={{ db_user }}
     #    role_attr_flags=NOSUPERUSER,NOCREATEDB
     #    state=present
-    
-    - name: Extraindo a base de dados
-      become: true
-      become_user: postgres
-      ansible.builtin.shell: gunzip -c /usr/share/zabbix-sql-scripts/postgresql/server.sql.gz > /tmp/server.sql
-    
-    - name: Importando base de dados
-      become: true
-      become_user: '{{ db_user }}'
-      shell: psql {{ db_name }} < /tmp/server.sql
     
 #    - name: Configurado DBPassword com senha criada
 #      ansible.builtin.command: sed -i '/DBPassword=/a DBPassword={{ db_password }}' /etc/zabbix/zabbix_server.conf
