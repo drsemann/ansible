@@ -1,0 +1,4 @@
+- hosts: all
+  tasks:
+    - name: Desligando o target
+      community.general.shutdown:

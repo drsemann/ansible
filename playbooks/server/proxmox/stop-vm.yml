@@ -1,5 +1,7 @@
 ---
-- hosts: all  
+- hosts: all
+  vars_files:
+    - vars/main.yml  
   tasks:
     - proxmox_kvm:
         api_user    : '{{ user_prx }}'
