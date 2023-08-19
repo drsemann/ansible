@@ -1,0 +1,13 @@
+---
+- hosts: all
+  vars_files:
+    - vars/main.yml
+  tasks:
+    - proxmox_kvm:
+        api_user    : '{{ user_prx }}'
+        api_password: '{{ pass_prx }}'
+        api_host    : '{{ host_prx }}'
+        name        : '{{ vm_prx }}'
+        node        : '{{ node_prx }}'
+        state       : started
+...
