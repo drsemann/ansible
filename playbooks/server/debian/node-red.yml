@@ -1,0 +1,35 @@
+---
+- hosts: all
+  tasks:
+    - name: Instala o node-red
+      block:
+        - name: Instalacao Pacotes base
+          ansible.builtin.package:
+            name:
+              - build-essential
+              - curl
+              - git
+            state: present
+
+        - name: Baixando script de instalação node-red
+          ansible.builtin.get_url:
+            url: https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered
+            dest: /tmp/update-nodejs-and-nodered.sh
+            mode: '0755'
+
+        - name: Instalando node-red
+          ansible.builtin.shell:
+            cmd: /tmp/update-nodejs-and-nodered.sh --confirm-root --confirm-install --skip-pi --no-init
+            executable: /usr/bin/bash
+        
+        - name: Habilitando o serviço nodered
+          ansible.builtin.service:
+            name: nodered
+            enabled: yes
+
+        - name: Start service httpd, if not started
+          ansible.builtin.service:
+            name: nodered
+            state: started
+
+...
