@@ -32,5 +32,4 @@ alias aptc='sudo apt autoremove -y;sudo apt clean all'
 alias ifconfig='grc ifconfig'
 alias vim='nvim'
 
-# Starship Prompt
-eval "$(starship init bash)"
+export PS1="\e[32m\]\u\[\e[m\]@\[\e[36m\]\h\[\e[m:\W$ "
